@@ -1,0 +1,5 @@
+[dockerhosts]
+iota.bluemx.de ansible_user=teclis ansible_become=true ansible_python_interpreter=/usr/bin/python3 
+
+#[iotanode]
+#iota.bluemx.de ansible_user=teclis ansible_python_interpreter=/usr/bin/python3

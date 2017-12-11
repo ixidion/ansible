@@ -1,0 +1,23 @@
+# Install IOTA Docker Image
+- group:
+    name: iota
+    state: present
+- user:
+    name: iota
+    groups: iota
+    createhome: no
+    shell: /sbin/nologin
+- name: Create Folder data
+  file:
+    path: /var/iota/data
+    owner: user
+    group: user
+    mode: 0755
+    state: directory
+- name: Create Folder conf
+  file:
+    path: /var/iota/conf
+    owner: iota
+    group: iota
+    mode: 0755
+    state: directory

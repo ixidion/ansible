@@ -1,0 +1,9 @@
+---
+# file: site.yml
+- name: Apply common configuration to all nodes
+  hosts: dockerhosts
+  remote_user: root
+  roles:
+    - common
+#    - docker
+    - iotanode

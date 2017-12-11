@@ -1,0 +1,8 @@
+- name: Update Cache
+  apt: update_cache=yes
+
+- name: Install Aptitude
+  apt: name=aptitude
+
+- name: Upgrade System
+  apt: upgrade=yes
