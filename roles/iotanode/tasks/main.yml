@@ -6,18 +6,53 @@
     name: iota
     groups: iota
     createhome: no
-    shell: /sbin/nologin
-- name: Create Folder data
-  file:
-    path: /var/iota/data
-    owner: user
-    group: user
-    mode: 0755
-    state: directory
-- name: Create Folder conf
-  file:
-    path: /var/iota/conf
-    owner: iota
-    group: iota
-    mode: 0755
-    state: directory
+
+# We need the following two to run the Dokcer ansible commands.
+- name: Install Python Pip for Ansible
+  apt:
+    name: python3-pip
+- name: Install docker-py
+  pip:
+    name: docker-py
+
+# - name: Create Folder data
+#   file:
+#     path: /var/iota/data
+#     owner: iota
+#     group: iota
+#     mode: 0755
+#     state: directory
+# - name: Create Folder conf
+#   file:
+#     path: /var/iota/conf
+#     owner: iota
+#     group: iota
+#     mode: 0755
+#     state: directory
+- name: Create a data volume
+  docker_volume:
+    name: iota_data
+- name: Create a neighbors volume
+  docker_volume:
+    name: iota_neighbors
+
+- name: Create a iota docker container
+  docker_container:
+    name: iota-node
+    image: bluedigits/iota-node
+    volumes:
+      - iota_data:/iri/data:rw
+      - iota_neighbors:/iri/conf:rw
+    published_ports:
+    # API
+      - "127.0.0.1:14265:14265/tcp"
+    # Node-UDP
+      - "14600:14600/udp"
+    # Node-TCP
+      - "15600:15600/tcp"
+    env:
+      API_PORT: 14265
+      UDP_PORT: 14600
+      TCP_PORT: 15600
+      REMOTE_API_LIMIT: ""
+      JAVA_OPTIONS: "-XX:+DisableAttachMechanism -XX:+HeapDumpOnOutOfMemoryError -Xms2g -Xmx11g"

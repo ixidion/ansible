@@ -2,8 +2,9 @@
 # file: site.yml
 - name: Apply common configuration to all nodes
   hosts: dockerhosts
-  remote_user: root
+  remote_user: teclis
   roles:
-    - common
-#    - docker
-    - iotanode
+     - common
+     - docker
+     - iotanode
+#     - ipm
